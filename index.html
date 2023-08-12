@@ -1,52 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <title>Calculator</title>
 </head>
+
 <body>
     <main id="main-container">
-        <div id="calc-container">
+        <div style="background-image: url('./phone.png');" id="calc-container">
             <div id="display-container">
-                <div id="result-display">12345.12</div>
-                <div id="input-display">12345.12</div>
+                <div class="display">12,345.12</div>
             </div>
             <div id="btn-container">
-                <div id="row-one">
+                <div class="row-one row-container">
                     <button class="btn" id="all-clear">AC</button>
                     <button class="btn" id="clear">C</button>
                     <button class="btn" id="modulo">%</button>
-                    <button class="btn" id="divide" class="btn-four">&#247;</button>
+                    <button class="btn btn-four" id="divide">&#247;</button>
                 </div>
-                <div id="row-two">      
-                    <button class="btn" >7</button>
-                    <button class="btn" >8</button>
-                    <button class="btn" >9</button>
-                    <button class="btn" id="multiply" class="btn-four">&#215;</button>
+                <div class="row-two row-container">
+                    <button class="btn">7</button>
+                    <button class="btn">8</button>
+                    <button class="btn">9</button>
+                    <button class="btn btn-four" id="multiply">&#215;</button>
                 </div>
-                <div id="row-three">
-                    <button class="btn" >4</button>
-                    <button class="btn" >5</button>
-                    <button class="btn" >6</button>
-                    <button class="btn" id="subtract" class="btn-four">&#45;</button>
+                <div class="row-three row-container">
+                    <button class="btn">4</button>
+                    <button class="btn">5</button>
+                    <button class="btn">6</button>
+                    <button class="btn btn-four" id="subtract">&#8211;</button>
                 </div>
-                <div id="row-four">
-                    <button class="btn" >1</button>
-                    <button class="btn" >2</button>
-                    <button class="btn" >3</button>
-                    <button class="btn" id="add" class="btn-four">&#43;</button>
+                <div class="row-four row-container">
+                    <button class="btn">1</button>
+                    <button class="btn">2</button>
+                    <button class="btn">3</button>
+                    <button class="btn btn-four" id="addition">&#43;</button>
                 </div>
-                <div id="row-five">
-                    <button class="btn" >&#8314;&#8725;&#8331;</button>
-                    <button class="btn" >0</button>
+                <div class="row-five row-container">
+                    <button class="btn">&#8314;&#8725;<span id="negative">-</span></button>
+                    <button class="btn">0</button>
                     <button class="btn" id="decimal">.</button>
-                    <button class="btn" id="equal" class="btn-four">&#61;</button>
+                    <button class="btn btn-four" id="equal">&#61;</button>
                 </div>
             </div>
         </div>
     </main>
     <script src="calc.js"></script>
 </body>
+
 </html>
