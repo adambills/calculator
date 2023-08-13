@@ -91,3 +91,7 @@ display-window styles
     color: white;
     font-size: 76px;
 }
+
+.display.reduceFont {
+    font-size: 48px;
+}

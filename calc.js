@@ -4,16 +4,14 @@ function activateButtons() {
     const buttons = document.querySelectorAll('button');
     for (const button of buttons) {
         button.addEventListener('click', (event) => {
-            //console.log(e);
             processButton(event);
         })
     }
 }
 
 function processButton(event) {
-    console.log(event.target.id);
     switch (event.target.id) {
-        case "number": updateDisplay(event);
+        case "number": appendNumber(event);
         case "clear": clear(event);
         case "sign": changeSign(event);
         case "decimal": addDecimal(event);
@@ -25,16 +23,28 @@ function processButton(event) {
         case "equal": equal(event);
     }
 }
-function updateDisplay(event) {
-    display.textContent += event.target.textContent;
+
+function appendNumber(event) {
+    let endDisplay = false;
+    if (display.clientWidth > 330 && display.classList.contains('reduceFont')) {
+        endDisplay = true;
+    } 
+    if (!endDisplay) {
+        display.textContent += event.target.textContent;
+        let num = parseFloat(display.textContent.replaceAll(',', ''))
+            .toLocaleString('en-US');
+        display.textContent = num;
+        console.dir(display);
+    }
+    if (display.clientWidth > 370) display.classList.add('reduceFont');
 }
 
 function clear(event) {
-	
+
 };
 
 function changeSign(event) {
-	
+
 };
 
 function addDecimal(event) {
@@ -54,11 +64,11 @@ function multiply(event) {
 };
 
 function subtract(event) {
-	
+
 };
 
 function add(event) {
-	
+
 };
 
 function equal(event) {
