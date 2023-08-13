@@ -11,16 +11,17 @@ function activateButtons() {
 
 function processButton(event) {
     switch (event.target.id) {
-        case "number": appendNumber(event);
-        case "clear": clear(event);
-        case "sign": changeSign(event);
-        case "decimal": addDecimal(event);
-        case "modulo": modulo(event);
-        case "divide": divide(event);
-        case "multiply": multiply(event);
-        case "subtract": subtract(event);
-        case "add": add(event);
-        case "equal": equal(event);
+        case "number": appendNumber(event); break;
+        case "clear": clear(event); break;
+        case "sign": 
+        case "negative": changeSign(event); break;
+        case "decimal": addDecimal(event); break;
+        case "modulo": modulo(event); break;
+        case "divide": divide(event); break;
+        case "multiply": multiply(event); break;
+        case "subtract": subtract(event); break;
+        case "add": add(event); break;
+        case "equal": equal(event); break;
     }
 }
 
@@ -40,11 +41,16 @@ function appendNumber(event) {
 }
 
 function clear(event) {
-
+    display.textContent = '';
+    display.classList.remove('reduceFont');
 };
 
 function changeSign(event) {
-
+    if (display.textContent.includes('-')) {
+        display.textContent = display.textContent.replace('-', '');
+    } else{
+        display.textContent = `-${display.textContent}`;
+    } 
 };
 
 function addDecimal(event) {
