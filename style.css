@@ -69,6 +69,10 @@ button styles
     font-size: 36px;
     margin-left: -4px;
 }
+#backspace {
+    padding-top: 12px;
+    padding-right: 12px;
+}
 .row-container .zero {
     width: 192px;
 }

@@ -1,4 +1,7 @@
 const display = document.querySelector('div.display');
+let operator = null;
+let firstOperand = null;
+let secondOperand = null;
 
 function activateButtons() {
     const buttons = document.querySelectorAll('button');
@@ -13,10 +16,10 @@ function processButton(event) {
     switch (event.target.id) {
         case "number": appendNumber(event); break;
         case "clear": clear(event); break;
-        case "sign": 
+        case "backspace": backspace(event); break;
+        case "sign":
         case "negative": changeSign(event); break;
         case "decimal": addDecimal(event); break;
-        case "modulo": modulo(event); break;
         case "divide": divide(event); break;
         case "multiply": multiply(event); break;
         case "subtract": subtract(event); break;
@@ -29,56 +32,75 @@ function appendNumber(event) {
     let endDisplay = false;
     if (display.clientWidth > 330 && display.classList.contains('reduceFont')) {
         endDisplay = true;
-    } 
+    }
     if (!endDisplay) {
         display.textContent += event.target.textContent;
-        let num = parseFloat(display.textContent.replaceAll(',', ''))
-            .toLocaleString('en-US');
-        display.textContent = num;
+        if (!display.textContent.includes('.')) {
+            let str = parseFloat(display.textContent.replaceAll(',', ''))
+                .toLocaleString('en-US');
+            display.textContent = str;
+        }
         console.dir(display);
     }
     if (display.clientWidth > 370) display.classList.add('reduceFont');
 }
 
-function clear(event) {
+function clear() {
     display.textContent = '';
     display.classList.remove('reduceFont');
 };
 
-function changeSign(event) {
+function changeSign() {
     if (display.textContent.includes('-')) {
         display.textContent = display.textContent.replace('-', '');
-    } else{
+    } else {
         display.textContent = `-${display.textContent}`;
-    } 
+    }
 };
 
-function addDecimal(event) {
+function addDecimal() {
+    if (display.textContent === '') display.textContent += '0.';
+    if (!display.textContent.includes('.')) display.textContent += '.';
+}
 
-};
-
-function modulo(event) {
-
-};
+function backspace(event) {
+    let str = display.textContent.replaceAll(',', '');
+    let substr = str.substring(0, str.length - 1);
+    if (substr.length > 0) {
+        display.textContent = parseFloat(substr).toLocaleString('en-US');
+    } else display.textContent = '';
+}
 
 function divide(event) {
-
-};
+    if (operator === null) {
+        operator === 'divide';
+        event.target.classList.add('activeOperator');
+    }
+}
 
 function multiply(event) {
-
-};
+    if (operator === null) {
+        operator === 'multiply';
+        event.target.classList.add('activeOperator');
+    }
+}
 
 function subtract(event) {
-
-};
+    if (operator === null) {
+        operator === 'subtract';
+        event.target.classList.add('activeOperator');
+    }
+}
 
 function add(event) {
+    if (operator === null) {
+        operator === 'add';
+        event.target.classList.add('activeOperator');
+    }
+}
 
-};
+function equal() {
 
-function equal(event) {
-
-};
+}
 
 activateButtons();
