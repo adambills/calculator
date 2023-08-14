@@ -3,6 +3,10 @@ let operator = null;
 let firstOperand = null;
 let secondOperand = null;
 
+let previousOperator = null;
+let previousResult = null;
+let prevSecondOperand = null;
+
 function activateButtons() {
     const buttons = document.querySelectorAll('button');
     for (const button of buttons) {
@@ -68,10 +72,14 @@ function backspace(event) {
 }
 
 function changeSign() {
-    if (display.textContent.includes('-')) {
-        display.textContent = display.textContent.replace('-', '');
+    if (operator === null) {
+        if (display.textContent.includes('-')) {
+            display.textContent = display.textContent.replace('-', '');
+        } else {
+            display.textContent = `-${display.textContent}`;
+        }
     } else {
-        display.textContent = `-${display.textContent}`;
+        display.textContent = '-';
     }
 }
 
@@ -108,11 +116,15 @@ function add(event) {
     }
 }
 
-function operate(event) {
-    removeClass();
+function operate() {
     secondOperand = parseFloat(display.textContent.replaceAll(',', ''));
     display.textContent = '';
     display.classList.remove('reduceFont');
+    if (operator === null) {
+        operator = previousOperator;
+        firstOperand = previousResult;
+        secondOperand = prevSecondOperand;
+    }
     let result = null;
     switch (operator) {
         case 'divide': result = firstOperand / secondOperand; break;
@@ -125,13 +137,12 @@ function operate(event) {
     } else {
         display.textContent = parseFloat(result).toLocaleString('en-US');
     }
-
-    if (display.clientWidth > 330 && display.classList.contains('reduceFont')) {
-        endDisplay = true;
-    }
-    if (display.clientWidth > 370) {
+    if (display.clientWidth > 350) {
         display.classList.add('reduceFont');
-    } 
+    }
+    previousOperator = operator;
+    previousResult = result;
+    prevSecondOperand = secondOperand;
     operator = null;
     firstOperand = null;
     secondOperand = null;
