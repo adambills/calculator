@@ -62,7 +62,7 @@ button styles
 .row-container .btn-four {
     padding-bottom: 8px;
     font-size: 54px;
-    background-color: rgb(230, 149, 0);
+    background-color: rgb(0, 83, 156);
     color: white;
 }
 #negative {
@@ -75,6 +75,23 @@ button styles
 }
 .row-container .zero {
     width: 192px;
+}
+.btn.operator.animate-operator {
+    background-color: white;
+    color: rgb(0, 83, 156);
+    font-weight: 700;
+    transition: all 0.15s;
+}
+.row-container .btn.animate-button {
+    background-color: rgb(100, 100, 100);
+    transition: all 0.15s;
+    transform: scale(1.05);
+}
+.row-container .btn#equal.animate-button {
+    background-color: white;
+    color: rgb(0, 83, 156);
+    transition: all 0.15s;
+    transform: scale(1.05);
 }
 
 /*

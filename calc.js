@@ -10,25 +10,26 @@ let prevSecondOperand = null;
 function activateButtons() {
     const buttons = document.querySelectorAll('button');
     for (const button of buttons) {
-        button.addEventListener('click', (event) => {
-            processButton(event);
-        })
+        button.addEventListener('click', (event) => processButton(event));
+        if (!button.classList.contains('operator')) {
+            button.addEventListener('transitionend', (event) => removeTransition(event));
+        }
     }
 }
 
 function processButton(event) {
     switch (event.target.id) {
-        case "number": appendNumber(event); break;
-        case "clear": clear(); break;
-        case "backspace": backspace(); break;
+        case "number": appendNumber(event); animateButton(event); break;
+        case "clear": clear(); animateButton(event); break;
+        case "backspace": backspace(); animateButton(event); break;
         case "sign":
-        case "negative": changeSign(); break;
-        case "decimal": addDecimal(); break;
-        case "divide": divide(event); break;
-        case "multiply": multiply(event); break;
-        case "subtract": subtract(event); break;
-        case "add": add(event); break;
-        case "equal": operate(); break;
+        case "negative": changeSign(); animateButton(event); break;
+        case "decimal": addDecimal(); animateButton(event); break;
+        case "divide": divide(event); animateButton(event); break;
+        case "multiply": multiply(event); animateButton(event); break;
+        case "subtract": subtract(event); animateButton(event); break;
+        case "add": add(event); animateButton(event); break;
+        case "equal": operate(); animateButton(event); break;
     }
 }
 
@@ -61,6 +62,9 @@ function clear() {
     operator = null;
     firstOperand = null;
     secondOperand = null;
+    previousOperator = null;
+    previousResult = null;
+    prevSecondOperand = null;
     deactivateOperator();
 }
 
@@ -82,10 +86,9 @@ function changeSign() {
         display.textContent = display.textContent.replace('-', '');
     } else {
         display.textContent = `-${display.textContent}`;
-    } 
+    }
 
 }
-
 
 function addDecimal() {
     if (display.textContent === '') display.textContent += '0.';
@@ -121,20 +124,25 @@ function add(event) {
 }
 
 function operate() {
+    let result = null;
     secondOperand = parseFloat(display.textContent.replaceAll(',', ''));
     display.textContent = '';
     display.classList.remove('reduceFont');
-    if (operator === null) {
+    if (firstOperand === null && previousOperator === null) {
+        result = secondOperand; //result = first input
+        //first operand is assigned when operator selected
+    } else if (operator === null) {
         operator = previousOperator;
         firstOperand = previousResult;
         secondOperand = prevSecondOperand;
-    }
-    let result = null;
-    switch (operator) {
-        case 'divide': result = firstOperand / secondOperand; break;
-        case 'multiply': result = firstOperand * secondOperand; break;
-        case 'subtract': result = firstOperand - secondOperand; break;
-        case 'add': result = firstOperand + secondOperand; break;
+    } 
+    if (firstOperand !== null) {
+        switch (operator) {
+            case 'divide': result = firstOperand / secondOperand; break;
+            case 'multiply': result = firstOperand * secondOperand; break;
+            case 'subtract': result = firstOperand - secondOperand; break;
+            case 'add': result = firstOperand + secondOperand; break;
+        }
     }
     if (result.toString().length > 11) {
         display.textContent = toExponential(result, 3);
@@ -160,8 +168,21 @@ function toExponential(number, rounding) {
 function deactivateOperator() {
     const buttons = document.querySelectorAll('button.btn-four');
     for (const button of buttons) {
-        button.classList.remove('activeOperator')
+        button.classList.remove('activeOperator');
+        button.classList.remove('animate-operator');
     }
+}
+
+function animateButton(event) {
+    if (event.target.classList.contains('operator')) {
+        event.target.classList.add('animate-operator');
+    } else {
+        event.target.classList.add('animate-button');
+    }
+}
+function removeTransition(event) {
+    if (event.propertyName !== 'transform') return;
+    event.target.classList.remove('animate-button');
 }
 
 activateButtons();
