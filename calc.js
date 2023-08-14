@@ -73,7 +73,7 @@ function backspace() {
 }
 
 function changeSign() {
-    if (firstOperand === null) {
+    if (firstOperand === null && operator !== null) {
         firstOperand = parseFloat(display.textContent.replaceAll(',', ''));
         display.textContent = '';
         display.classList.remove('reduceFont');
