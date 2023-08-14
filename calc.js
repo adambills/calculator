@@ -19,16 +19,16 @@ function activateButtons() {
 function processButton(event) {
     switch (event.target.id) {
         case "number": appendNumber(event); break;
-        case "clear": clear(event); break;
-        case "backspace": backspace(event); break;
+        case "clear": clear(); break;
+        case "backspace": backspace(); break;
         case "sign":
-        case "negative": changeSign(event); break;
-        case "decimal": addDecimal(event); break;
+        case "negative": changeSign(); break;
+        case "decimal": addDecimal(); break;
         case "divide": divide(event); break;
         case "multiply": multiply(event); break;
         case "subtract": subtract(event); break;
         case "add": add(event); break;
-        case "equal": operate(event); break;
+        case "equal": operate(); break;
     }
 }
 
@@ -37,7 +37,8 @@ function appendNumber(event) {
     if (display.clientWidth > 330 && display.classList.contains('reduceFont')) {
         endDisplay = true;
     }
-    if (operator !== null && firstOperand === null) {
+    if (operator !== null && firstOperand === null &&
+        display.textContent !== '-') {
         firstOperand = parseFloat(display.textContent.replaceAll(',', ''));
         display.textContent = '';
         display.classList.remove('reduceFont');
@@ -60,10 +61,10 @@ function clear() {
     operator = null;
     firstOperand = null;
     secondOperand = null;
-    removeClass();
+    deactivateOperator();
 }
 
-function backspace(event) {
+function backspace() {
     let str = display.textContent.replaceAll(',', '');
     let substr = str.substring(0, str.length - 1);
     if (substr.length > 0) {
@@ -72,16 +73,19 @@ function backspace(event) {
 }
 
 function changeSign() {
-    if (operator === null) {
-        if (display.textContent.includes('-')) {
-            display.textContent = display.textContent.replace('-', '');
-        } else {
-            display.textContent = `-${display.textContent}`;
-        }
-    } else {
-        display.textContent = '-';
+    if (firstOperand === null) {
+        firstOperand = parseFloat(display.textContent.replaceAll(',', ''));
+        display.textContent = '';
+        display.classList.remove('reduceFont');
     }
+    if (display.textContent.includes('-')) {
+        display.textContent = display.textContent.replace('-', '');
+    } else {
+        display.textContent = `-${display.textContent}`;
+    } 
+
 }
+
 
 function addDecimal() {
     if (display.textContent === '') display.textContent += '0.';
@@ -146,15 +150,15 @@ function operate() {
     operator = null;
     firstOperand = null;
     secondOperand = null;
-    removeClass();
+    deactivateOperator();
 }
 
 function toExponential(number, rounding) {
     return Number.parseFloat(number).toExponential(rounding);
 }
 
-function removeClass() {
-    const buttons = document.querySelectorAll('button');
+function deactivateOperator() {
+    const buttons = document.querySelectorAll('button.btn-four');
     for (const button of buttons) {
         button.classList.remove('activeOperator')
     }
